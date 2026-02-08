@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DevProfile UI</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        h2 { margin-top: 30px; }
+        input, button { padding: 8px; margin: 5px; }
+        .card { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<h1>DevProfile Dashboard</h1>
+
+<!-- 🔍 Search by skill -->
+<h2>Search Profiles by Skill</h2>
+<input type="text" id="searchInput" placeholder="Enter skill e.g. python">
+<button onclick="searchProfiles()">Search</button>
+<div id="searchResults"></div>
+
+<!-- 📋 List all projects -->
+<h2>All Projects</h2>
+<button onclick="loadProjects()">Load Projects</button>
+<div id="projectList"></div>
+
+<!-- 👤 View Profile -->
+<h2>View Profile by ID</h2>
+<input type="number" id="profileId" placeholder="Enter profile id">
+<button onclick="loadProfile()">View Profile</button>
+<div id="profileView"></div>
+
+<script>
+const BASE_URL = "http://127.0.0.1:8000/api";
+
+/* 🔍 Search Profiles */
+async function searchProfiles() {
+    const q = document.getElementById("searchInput").value;
+    const res = await fetch(`${BASE_URL}/search/?q=${q}`);
+    const data = await res.json();
+
+    const container = document.getElementById("searchResults");
+    container.innerHTML = "";
+
+    data.forEach(p => {
+        container.innerHTML += `
+            <div class="card">
+                <b>${p.name}</b><br>
+                Email: ${p.email}<br>
+                Education: ${p.education}
+            </div>
+        `;
+    });
+}
+
+/* 📋 Load Projects */
+async function loadProjects() {
+    const res = await fetch(`${BASE_URL}/projects/`);
+    const data = await res.json();
+
+    const container = document.getElementById("projectList");
+    container.innerHTML = "";
+
+    data.forEach(pr => {
+        container.innerHTML += `
+            <div class="card">
+                <b>${pr.title}</b><br>
+                ${pr.description}<br>
+                <a href="${pr.github_link}" target="_blank">GitHub</a>
+            </div>
+        `;
+    });
+}
+
+/* 👤 Load Profile */
+async function loadProfile() {
+    const id = document.getElementById("profileId").value;
+    const res = await fetch(`${BASE_URL}/profiles/${id}/`);
+    const p = await res.json();
+
+    const container = document.getElementById("profileView");
+    container.innerHTML = `
+        <div class="card">
+            <b>${p.name}</b><br>
+            Email: ${p.email}<br>
+            Education: ${p.education}<br>
+            Bio: ${p.bio}
+        </div>
+    `;
+}
+</script>
+
+</body>
+</html>
