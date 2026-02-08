@@ -114,7 +114,7 @@ curl "http://127.0.0.1:8000/api/search/?q=python"
 
 ## Resume
 
-You can view my resume here:
+You can view my resume here:https://drive.google.com/file/d/1XH0Ecy3gv9NkU6POF4_X_-Y5Iq5DL55Y/view?usp=drive_link
 
-**[View Resume]([https://your-resume-link.com](https://drive.google.com/file/d/1XH0Ecy3gv9NkU6POF4_X_-Y5Iq5DL55Y/view?usp=drive_link))**
+
 
